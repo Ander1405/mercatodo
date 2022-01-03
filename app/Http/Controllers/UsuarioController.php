@@ -48,11 +48,11 @@ class UsuarioController extends Controller
         $this->validate($request,[
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:comfirm-password',
+            'password' => 'required|same:confirm-password',
             'roles' => 'required'
         ]);
         $input = $request->all();
-        $input['passord'] = Hash::make($input['passord']);
+        $input['password'] = Hash::make($input['password']);
 
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
@@ -94,10 +94,10 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate([
+        $this->validate($request,[
             'name' => 'required',
             'email' => 'required|email|unique:users,email'.$id,
-            'password' => 'same:comfirm-password',
+            'password' => 'same:confirm-password',
             'roles' => 'required'
         ]);
 
