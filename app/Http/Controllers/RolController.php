@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 //Agregamos
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\DB;
+use Illuminate\Support\Facades\DB;
 
 
 class RolController extends Controller
@@ -79,7 +79,7 @@ class RolController extends Controller
         $role = Role::find($id);
         $permission = Permission::get();
         $rolePermissions = DB::table('role_has_permissions')->where('role_has_permissions.role_id', $id)
-            ->pluck('roles_has_permissions.permission_id', 'role_has_permissions.permission_id')
+            ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();
         return view('roles.editar', compact('role', 'permission', 'rolePermissions'));
     }
