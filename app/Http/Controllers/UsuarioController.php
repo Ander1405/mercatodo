@@ -45,7 +45,7 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate([
+        $this->validate($request,[
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:comfirm-password',
