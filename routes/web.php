@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+//Agregamos controladores
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\UsuarioController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,3 +27,11 @@ Route::get('/dashboard', function () {
 })->middleware(['auth, verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+//Rutas de los controladores
+
+Route::group(['middleware' => ['auth']], function (){
+    Route::resource('roles',RolController::class);
+    Route::resource('usuarios', UsuarioController::class);
+});
+
