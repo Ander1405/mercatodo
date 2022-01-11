@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StatusUserController;
 
 //Agregamos controladores
-use App\Http\Controllers\HomeController;
+
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UsuarioController;
 
@@ -24,7 +26,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified','status'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 
@@ -34,4 +36,13 @@ Route::group(['middleware' => ['auth']], function (){
     Route::resource('roles',RolController::class);
     Route::resource('usuarios', UsuarioController::class);
 });
+
+Route::put('/statusChange/{user}', [StatusUserController::class,'update'])->name('statusChange');
+
+// Ruta del middleware
+
+Route::get('/disabled', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('disabled');
+
 
