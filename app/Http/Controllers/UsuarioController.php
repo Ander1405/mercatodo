@@ -15,6 +15,13 @@ use Illuminate\support\Arr;
 
 class UsuarioController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:ver-usuario|crear-usuario|editar-usuario|borrar-usuario',['only'=>['index']]);
+        $this->middleware('permission:crear-usuario' ,['only'=>['create','store']]);
+        $this->middleware('permission:editar-usuario' ,['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-usuario' ,['only'=>['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -41,15 +48,17 @@ class UsuarioController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+
         $this->validate($request,[
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
-            'roles' => 'required'
+            'roles' => 'required',
         ]);
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
@@ -96,21 +105,21 @@ class UsuarioController extends Controller
     {
         $this->validate($request,[
             'name' => 'required',
-            'email' => 'required|email|unique:users,email'.$id,
+            'email' => 'required|email|unique:users,email,'.$id,
             'password' => 'same:confirm-password',
             'roles' => 'required'
         ]);
 
-        $input = $request->all();
-        if (!empty($input['password'])){
+        $input= $request->all();
+        if(!empty($input['password'])){
             $input['password'] = Hash::make($input['password']);
         }else{
             $input = Arr::except($input, array('password'));
         }
 
         $user = User::find($id);
-        $user->ipdate($input);
-        DB::table('mode_has_roles')->where('model_id', $id->delete);
+        $user->update($input);
+        DB::table('model_has_roles')->where('model_id',$id)->delete();
 
         $user->assignRole($request->input('roles'));
         return redirect()->route('usuarios.index');
