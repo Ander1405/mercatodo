@@ -10,11 +10,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 {{--                <a class="btn btn-warning" href="{{ route('usuarios.create') }}">Nuevo</a>--}}
                 <div class="bg-white rounded-lg shadow-sm text-center flex flex-col">
-                    <h1 style="background-color: chartreuse">
+                    <h1 class="bg-gray-800 text-white">
                         <strong>{{ trans('Users table') }}</strong>
                     </h1>
-                    <table class="table table-hover table-dark">
-                        <thead style="background-color: chartreuse">
+                    <table>
+                        <thead class="bg-gray-800 text-white">
                         <th>id</th>
                         <th>{{ trans('Name') }}</th>
                         <th>{{ trans('E-mail') }}</th>
@@ -38,19 +38,23 @@
                                 </td>
                                 <td>
                                     @can('editar-usuario')
-                                    <a class="btn btn-info" href="{{route('usuarios.edit', $usuario->id) }}">{{ trans('Edit') }}</a>
+                                    <a class="inline-flex bg-green-400 text-white rounded-full h-6 px-3 justify-center items-center" href="{{route('usuarios.edit', $usuario->id) }}">{{ trans('Edit') }}</a>
                                     @endcan
                                     <form action="/delete" method="POST"></form>
 
-                                    @can('borrar-usuario')
-                                    {!! Form::open(['method'=>'DELETE','route'=> ['usuarios.destroy', $usuario->id], 'style'=>'display:inline']) !!}
-                                    {!! Form::submit(trans('Delete'), ['class'=>'btn btn-danger']) !!}
-                                    {!! Form::close() !!}
+                                    <div>
+                                        @can('borrar-usuario')
+                                            <form action="{{ route('usuarios.destroy' ,$usuario->id) }}" method="POST" class="formDelete">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="inline-flex bg-red-600 text-white rounded-full h-6 px-3 justify-center items-center" type="submit">{{ trans('Delete') }}</button>
+                                            </form>
                                         @endcan
+                                    </div>
 
                                 </td>
                                 <td>
-                                    <form action="{{route('statusChange', $usuario->id) }}"method="POST">@method('PUT')@csrf<button type="submit">{{$usuario->status}}</button></form>
+                                    <form action="{{route('statusChange', $usuario->id) }}"method="POST">@method('PUT')@csrf<button class='relative bg-blue-500 text-white p-1 rounded text-1xl font-bold overflow-hidden' type="submit">{{$usuario->status}}</button></form>
                                 </td>
                             </tr>
                         @endforeach
@@ -58,11 +62,10 @@
                     </table>
                     <div class="pagination justify-content-end">
                         {!! $usuarios->links() !!}
-
                     </div>
                 </div>
 
-                <a class="rounded-none" href="{{ route('usuarios.create') }}"><strong>Nuevo</strong></a>
+                <a class="inline-flex bg-green-400 text-white rounded-full h-6 px-3 justify-center items-center"  href="{{ route('usuarios.create') }}"><strong>{{ trans('New') }}</strong></a>
 
             </div>
         </div>

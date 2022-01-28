@@ -7,9 +7,9 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200 ">
+                    <div>
                     @if($errors->any())
                         <div class="alert alert-dark alert-dimissible fade show" role="alert">
                             <strong>{{ trans('check the fields') }}</strong>
@@ -29,24 +29,28 @@
                                 <label for="">{{trans('Name')}}</label>
                                 {!! Form::text('name', '', array('class'=>'form-control')) !!}
                             </div>
+                            <br>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label for="">{{ trans('E-mail') }}</label>
                                 {!! Form::text('email', '', array('class'=>'form-control')) !!}
                             </div>
+                            <br>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label for="">{{ trans('Password') }}</label>
                                 {!! Form::password('password', array('class'=>'form-control')) !!}
                             </div>
+                            <br>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label for="">{{ trans('Confirm password') }}</label>
                                 {!! Form::password('confirm-password', array('class'=>'form-control')) !!}
                             </div>
+                            <br>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
@@ -57,6 +61,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <button type="submit" class="btn btn-primary">{{ trans('Save') }}</button>
                         </div>
+                    </div>
                     </div>
                     {!! Form::close() !!}
                 </div>
