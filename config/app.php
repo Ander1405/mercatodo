@@ -235,5 +235,5 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
+    'currency'=>env('CURRENCY', 'USD')
 ];
