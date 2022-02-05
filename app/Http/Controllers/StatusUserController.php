@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class StatusUserController extends Controller
@@ -13,7 +14,7 @@ class StatusUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update($id): RedirectResponse
     {
         $user = User::find($id);
 

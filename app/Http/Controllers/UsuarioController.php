@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
 use Illuminate\support\Facades\DB;
 use Illuminate\support\Facades\Hash;
@@ -27,7 +29,7 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
         $usuarios = User::paginate(5);
         return view('usuarios.index', compact('usuarios'));
@@ -38,7 +40,7 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): View
     {
         $roles = Role::pluck('name', 'name')->all();
         return view('usuarios.crear', compact('roles'));
@@ -51,7 +53,7 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
 
         $this->validate($request,[
@@ -86,7 +88,7 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id): View
     {
         $user = User::find($id);
         $roles = Role::pluck('name', 'name')->all();
@@ -101,7 +103,7 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): RedirectResponse
     {
         $this->validate($request,[
             'name' => 'required',
@@ -131,7 +133,7 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id): View
     {
         User::find($id)->delete();
         return redirect()->route('usuarios.index');
