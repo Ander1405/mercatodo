@@ -5,23 +5,30 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />Mercatodo
+                    <a href="{{ route('clients') }}">
+                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" /><h1>Mercatodo</h1>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Inicio') }}
+                    <x-nav-link :href="route('clients')" :active="request()->routeIs('clients')">
+                        {{ trans('Start') }}
                     </x-nav-link>
                 </div>
                 @can('ver-usuario')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.index')">
-                        {{ __('Usuarios') }}
+                        {{ trans('Users') }}
                     </x-nav-link>
                 </div>
+                @endcan
+                @can('ver-productos')
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('productos.index')" :active="request()->routeIs('productos.index')">
+                            {{ trans('Products') }}
+                        </x-nav-link>
+                    </div>
                 @endcan
                 @can('ver-rol')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -30,6 +37,7 @@
                     </x-nav-link>
                 </div>
                 @endcan
+
             </div>
 
             <!-- Settings Dropdown -->

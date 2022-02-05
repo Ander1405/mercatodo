@@ -54,7 +54,10 @@
 
                                 </td>
                                 <td>
-                                    <form action="{{route('statusChange', $usuario->id) }}"method="POST">@method('PUT')@csrf<button class='relative bg-blue-500 text-white p-1 rounded text-1xl font-bold overflow-hidden' type="submit">{{$usuario->status}}</button></form>
+                                    <form action="{{route('statusChange', $usuario->id) }}"method="POST">
+                                        @method('PUT')
+                                        @csrf
+                                        <button class='relative bg-blue-500 text-white p-1 rounded text-1xl font-bold overflow-hidden' type="submit">{{$usuario->status}}</button></form>
                                 </td>
                             </tr>
                         @endforeach
