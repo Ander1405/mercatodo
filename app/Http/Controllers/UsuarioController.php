@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -24,44 +26,24 @@ class UsuarioController extends Controller
         $this->middleware('permission:editar-usuario' ,['only'=>['edit','update']]);
         $this->middleware('permission:borrar-usuario' ,['only'=>['destroy']]);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(): View
     {
         $usuarios = User::paginate(5);
         return view('usuarios.index', compact('usuarios'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create(): View
     {
         $roles = Role::pluck('name', 'name')->all();
         return view('usuarios.crear', compact('roles'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request): RedirectResponse
+
+    public function store(StoreUserRequest $request): RedirectResponse
     {
 
-        $this->validate($request,[
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required',
-        ]);
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
 
@@ -71,23 +53,6 @@ class UsuarioController extends Controller
         return redirect()->route('usuarios.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id): View
     {
         $user = User::find($id);
@@ -96,22 +61,9 @@ class UsuarioController extends Controller
         return view('usuarios.editar', compact('user', 'roles', 'userRole'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id): RedirectResponse
-    {
-        $this->validate($request,[
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
-        ]);
 
+    public function update(UpdateUserRequest $request, $id): RedirectResponse
+    {
         $input= $request->all();
         if(!empty($input['password'])){
             $input['password'] = Hash::make($input['password']);
@@ -127,13 +79,8 @@ class UsuarioController extends Controller
         return redirect()->route('usuarios.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id): View
+
+    public function destroy($id): RedirectResponse
     {
         User::find($id)->delete();
         return redirect()->route('usuarios.index');

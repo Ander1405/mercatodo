@@ -1,22 +1,19 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Product\ProductClientController;
+use App\Http\Controllers\Product\ProductoController;
+use App\Http\Controllers\Product\StatusProductController;
+use App\Http\Controllers\Role\RolController;
 use App\Http\Controllers\StatusUserController;
-use App\Http\Controllers\StatusProductController;
+use App\Http\Controllers\UsuarioController;
+use Illuminate\Support\Facades\Route;
 
 //Agregamos controladores
 
-use App\Http\Controllers\RolController;
-use App\Http\Controllers\UsuarioController;
-
 //Controlador del producto
 
-use App\Http\Controllers\ProductoController;
-
 // Controladro cliente vista
-
-use App\Http\Controllers\ProductClientController;
 
 /*
 |--------------------------------------------------------------------------

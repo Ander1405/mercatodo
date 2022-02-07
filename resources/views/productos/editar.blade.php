@@ -16,6 +16,12 @@
                             <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Nombre:</label>
                             <input name="name" value="{{ $producto->name }}" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
                         </div>
+
+                        <div class="grid grid-cols-1">
+                            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Precio:</label>
+                            <input name="price" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
+                        </div>
+
                         <div class="grid grid-cols-1">
                             <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Descripción:</label>
                             <input name="description" value="{{ $producto->description }}" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
