@@ -8,15 +8,17 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+                <div class="bg-white rounded-lg shadow-sm text-center flex flex-col">
 
-                    @can('crear-rol')
-                        <a class="btn btn-warning" href="{{ route('roles.create') }}">Crear</a>
-                    @endcan
-                    <table class="table table-striped mt-2">
-                        <thead style="background-color: #6777ef">
-                        <th style="color: #fff">Rol</th>
-                        <th style="color: #fff">Acciones</th>
+
+                    <div class="bg-white rounded-lg shadow-sm text-center flex flex-col"></div>
+                    <h1 class="bg-gray-800 text-white">
+                        <strong> {{ trans('Roles table') }}</strong>
+                    </h1>
+                    <table >
+                        <thead class="bg-gray-800 text-white">
+                        <th>Roles</th>
+                        <th>{{ trans('Actions') }}</th>
                         </thead>
                         <tbody>
                         @foreach($roles as $role)
@@ -24,13 +26,15 @@
                                 <td>{{ $role->name }}</td>
                                 <td>
                                     @can('editar.rol')
-                                        <a class="btn btn-primary" href="{{ route('roles.edit', $role->id) }}">Editar</a>
+                                        <a class="inline-flex bg-green-400 text-white rounded-full h-6 px-3 justify-center items-center" class="btn btn-primary" href="{{ route('roles.edit', $role->id) }}">{{ trans('Edit') }}</a>
                                     @endcan
 
                                     @can('borrar-rol')
-                                        {!! Form::open(['method'=>'DELETE','route'=> ['roles.destroy', $role->id], 'style'=>'display:inline']) !!}
-                                        {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
-                                        {!! Form::close() !!}
+                                            <form action="{{ route('roles.destroy' ,$role->id) }}" method="POST" class="formDelete">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="inline-flex bg-red-600 text-white rounded-full h-6 px-3 justify-center items-center" type="submit">{{ trans('Delete') }}</button>
+                                            </form>
                                     @endcan
                                 </td>
                             </tr>
@@ -39,6 +43,9 @@
                     </table>
 
                 </div>
+                @can('crear-rol')
+                <a class="inline-flex bg-green-400 text-white rounded-full h-6 px-3 justify-center items-center" href="{{ route('roles.create') }}"><strong>{{trans('New')}}</strong></a>
+                @endcan
             </div>
         </div>
     </div>

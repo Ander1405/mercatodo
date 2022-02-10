@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Crear roles') }}
+            {{ trans('Create roles') }}
         </h2>
     </x-slot>
 
@@ -12,9 +12,9 @@
 
                     @if($errors->any())
                         <div class="alert alert-dark alert-dimissible fade show" role="alert">
-                            <strong>Revise los campos!</strong>
+                            <strong>{{ trans('Check the fields') }}</strong>
                             @foreach($errors->all() as $error)
-                                <span class="badge badge-danger">{{$error}}</span>
+{{--                                <span class="badge badge-danger">{{$error}}</span>--}}
                             @endforeach
                             <button type="button" class="close" data-dimiss="alert" aria-label="close">
                                 <span aria-hidden="true">&times</span>
@@ -25,13 +25,13 @@
                     {!! Form::open(array('route' => 'roles.store','method'=>'POST')) !!}
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
-                            <label for="">Nombre del Rol</label>
+                            <label for="">{{ trans('Role name') }}</label>
                             {!! Form::text('name', '', array('class'=>'form-control')) !!}
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
-                            <label for="">Permisos para ester Rol:</label>
+                            <label for="">{{ trans('Permissions for this role:') }}</label>
                             <br/>
                             @foreach($permission as $value)
                                 <label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                 </div>
-                <button>Guardar</button>
+                <button>{{ trans('Save') }}</button>
                 {!! Form::close() !!}
             </div>
         </div>

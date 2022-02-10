@@ -1,32 +1,34 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Usuarios') }}
+            {{ trans('Users') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-
-
-                    <a class="btn btn-warning" href="{{ route('usuarios.create') }}">Nuevo</a>
-
-                    <table class="table table-striped mt-2">
-                        <thead style="background-color: #6777ef">
-                        <th style="">ID</th>
-                        <th style="color: #fff">Nombre</th>
-                        <th style="color: #fff">E-mail</th>
-                        <th style="color: #fff">Rol</th>
-                        <th style="color: #fff">Acciones</th>
+{{--                <a class="btn btn-warning" href="{{ route('usuarios.create') }}">Nuevo</a>--}}
+                <div class="bg-white rounded-lg shadow-sm text-center flex flex-col">
+                    <h1 class="bg-gray-800 text-white">
+                        <strong>{{ trans('Users table') }}</strong>
+                    </h1>
+                    <table>
+                        <thead class="bg-gray-800 text-white">
+                        <th>id</th>
+                        <th>{{ trans('Name') }}</th>
+                        <th>{{ trans('E-mail') }}</th>
+                        <th>Rol</th>
+                        <th>{{ trans('Actions') }}</th>
+                        <th>{{ trans('Status') }}</th>
                         </thead>
                         <tbody>
                         @foreach($usuarios as $usuario)
                             <tr>
-                                <td style="display: none;"{{$usuario->id}}></td>
+                                <td>{{$usuario->id}}</td>
                                 <td>{{$usuario->name}}</td>
                                 <td>{{$usuario->email}}</td>
+
                                 <td>
                                     @if(!empty($usuario->getRoleNames()))
                                         @foreach($usuario->getRoleNames() as $rolName)
@@ -35,13 +37,27 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a class="btn btn-info" href="{{route('usuarios.edit', $usuario->id) }}">Editar</a>
-
+                                    @can('editar-usuario')
+                                    <a class="inline-flex bg-green-400 text-white rounded-full h-6 px-3 justify-center items-center" href="{{route('usuarios.edit', $usuario->id) }}">{{ trans('Edit') }}</a>
+                                    @endcan
                                     <form action="/delete" method="POST"></form>
 
-                                    {!! Form::open(['method'=>'DELETE','route'=> ['usuarios.destroy', $usuario->id], 'style'=>'display:inline']) !!}
-                                    {!! Form::submit('Borrar', ['class'=>'btn btn-danger']) !!}
-                                    {!! Form::close() !!}
+                                    <div>
+                                        @can('borrar-usuario')
+                                            <form action="{{ route('usuarios.destroy' ,$usuario->id) }}" method="POST" class="formDelete">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="inline-flex bg-red-600 text-white rounded-full h-6 px-3 justify-center items-center" type="submit">{{ trans('Delete') }}</button>
+                                            </form>
+                                        @endcan
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <form action="{{route('statusChange', $usuario->id) }}"method="POST">
+                                        @method('PUT')
+                                        @csrf
+                                        <button class='relative bg-blue-500 text-white p-1 rounded text-1xl font-bold overflow-hidden' type="submit">{{$usuario->status}}</button></form>
                                 </td>
                             </tr>
                         @endforeach
@@ -51,6 +67,9 @@
                         {!! $usuarios->links() !!}
                     </div>
                 </div>
+
+                <a class="inline-flex bg-green-400 text-white rounded-full h-6 px-3 justify-center items-center"  href="{{ route('usuarios.create') }}"><strong>{{ trans('New') }}</strong></a>
+
             </div>
         </div>
     </div>

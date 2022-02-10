@@ -1,11 +1,19 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Product\ProductClientController;
+use App\Http\Controllers\Product\ProductoController;
+use App\Http\Controllers\Product\StatusProductController;
+use App\Http\Controllers\Role\RolController;
+use App\Http\Controllers\StatusUserController;
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 //Agregamos controladores
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\RolController;
-use App\Http\Controllers\UsuarioController;
+
+//Controlador del producto
+
+// Controladro cliente vista
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +32,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified','status'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 
@@ -33,5 +41,23 @@ require __DIR__.'/auth.php';
 Route::group(['middleware' => ['auth']], function (){
     Route::resource('roles',RolController::class);
     Route::resource('usuarios', UsuarioController::class);
+    Route::resource('productos',ProductoController::class);
 });
+
+Route::put('/statusChange/{user}', [StatusUserController::class,'update'])->name('statusChange');
+Route::put('/productStatus/{product}',[StatusProductController::class,'update'])->name('productStatus');
+
+// Ruta del middleware
+
+Route::get('/disabled', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('disabled');
+
+// Ruta de vista personalizada del usuario
+
+Route::get('/clients', [ProductClientController::class, 'index'])->name('clients');
+
+
+
+
 

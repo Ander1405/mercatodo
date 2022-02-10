@@ -80,7 +80,8 @@ return [
     |
     */
 
-    'locale' => 'en',
+    //'locale' => 'en',
+    'locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -234,5 +235,5 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
+    'currency'=>env('CURRENCY', 'USD')
 ];

@@ -9,12 +9,7 @@ use Spatie\Permission\Models\Permission;
 
 class SeederTablaPermisos extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $permisos = [
             // Tabla Roles
@@ -22,6 +17,19 @@ class SeederTablaPermisos extends Seeder
             'crear-rol',
             'editar-rol',
             'borrar-rol',
+
+            // Usuarios
+            'ver-usuario',
+            'crear-usuario',
+            'editar-usuario',
+            'borrar-usuario',
+
+            // Productos
+            'ver-producto',
+            'crear-producto',
+            'editar-producto',
+            'borrar-producto',
+
         ];
         foreach ($permisos as $permiso){
             Permission::create(['name'=>$permiso]);
