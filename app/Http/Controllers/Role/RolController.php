@@ -46,11 +46,6 @@ class RolController extends Controller
         return redirect()->route('roles.index');
     }
 
-    public function show($id)
-    {
-        //
-    }
-
     public function edit($id): View
     {
         $role = Role::find($id);
