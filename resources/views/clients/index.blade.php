@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <form action="{{route('clients')}}" method="GET">
                 <div class="form-group d-inline-flex">
-                    <input type="text" class="form-control" name="search" placeholder="Search here....." value="{{ request()->input('search') }}">
+                    <input type="text" class="form-control" name="search" placeholder="Buscar" value="{{ request()->input('search') }}">
                     <span class="text-danger">@error('queryUser'){{ $message }} @enderror</span>
                     <button type="submit" class="bg-gray-500 rounded-full font-bold text-white px-4 py-3 transition duration-300 ease-in-out hover:bg-gray-600 mr-6">{{trans('Search')}}</button>
                 </div>
