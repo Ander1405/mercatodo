@@ -17,7 +17,7 @@ class UpdateUserRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email|unique:users,email,',
             'password' => 'same:confirm-password',
-            'roles' => 'required'
+//            'roles' => 'required'
         ];
     }
 }

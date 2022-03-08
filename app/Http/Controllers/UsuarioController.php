@@ -29,7 +29,7 @@ class UsuarioController extends Controller
 
     public function index(): View
     {
-        $usuarios = User::paginate(5);
+        $usuarios = User::paginate(config('app.paginate'));
         return view('usuarios.index', compact('usuarios'));
     }
 
@@ -64,6 +64,7 @@ class UsuarioController extends Controller
 
     public function update(UpdateUserRequest $request, $id): RedirectResponse
     {
+
         $input= $request->all();
         if(!empty($input['password'])){
             $input['password'] = Hash::make($input['password']);

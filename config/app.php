@@ -235,5 +235,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-    'currency'=>env('CURRENCY', 'USD')
+    'currency'=>env('CURRENCY', 'USD'),
+    'paginate'=>env('PAGINATE_NUMBER',10)
 ];
