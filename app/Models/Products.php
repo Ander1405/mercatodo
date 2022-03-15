@@ -15,13 +15,16 @@ class Products extends Model
         'description',
         'image',
         'price',
+        'storage',
+        'ram',
+        'processor',
+        'graph',
+        'brand',
         'stock',
-        'size',
-        'color',
         'category_id'
     ];
     public function categories(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Cateorie::class,'id_categorie');
     }
 }

@@ -17,6 +17,11 @@ class UpdateProductRequest extends FormRequest
             'name'=>['required'],
             'description',
             'price'=>['required'],
+            'storage',
+            'ram',
+            'processor',
+            'graph',
+            'brand',
         ];
     }
 }

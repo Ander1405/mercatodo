@@ -24,6 +24,26 @@
                             <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Descripción:</label>
                             <input name="description" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
                         </div>
+                        <div class="grid grid-cols-1">
+                            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">storage:</label>
+                            <input name="storage" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
+                        </div>
+                        <div class="grid grid-cols-1">
+                            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">ram:</label>
+                            <input name="ram" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
+                        </div>
+                        <div class="grid grid-cols-1">
+                            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">graph:</label>
+                            <input name="graph" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
+                        </div>
+                        <div class="grid grid-cols-1">
+                            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">brand:</label>
+                            <input name="brand" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
+                        </div>
+                        <div class="grid grid-cols-1">
+                            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">processor:</label>
+                            <input name="processor" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
+                        </div>
                     </div>
 
                     <!-- Para ver la imagen seleccionada, de lo contrario no se -->
