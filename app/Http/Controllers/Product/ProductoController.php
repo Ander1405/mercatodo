@@ -36,8 +36,10 @@ class ProductoController extends Controller
         return view('productos.crear');
     }
 
-    public function show(){
-        //
+    public function show(Products $producto): view
+    {
+        $currency = config('app.currency');
+        return view('productos.show', compact('producto','currency'));
     }
 
     public function store(StoreProductRequest $request): RedirectResponse
