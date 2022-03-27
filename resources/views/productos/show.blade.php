@@ -65,10 +65,9 @@
                 </ol>
                 <p class="text-base leading-normal text-gray-600 dark:text-white mt-6">{{ $producto->price }} {{ $currency }}</p>
                 <p class="text-3xl font-medium text-gray-600 dark:text-white mt-8 md:mt-10"></p>
-                <div class="flex items-center flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 lg:space-x-8 mt-8 md:mt-16">
-                    <button class="rounded-md w-full md:w-3/5 border border-gray-800 text-base font-medium leading-none text-white uppercase py-6 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 bg-gray-800 text-white dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200">Add to Cart</button>
-                    <button class=" rounded-md w-full md:w-2/5 border border-gray-800 text-base font-medium leading-none text-gray-800 dark:text-white uppercase py-6 bg-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 dark:bg-transparent dark:border-white dark:text-white focus:ring-gray-800 hover:bg-gray-800 hover:text-white dark:hover:bg-gray-800 ">View Details</button>
-                </div>
+                <form class="mt-5" >
+                    <button class="px-4 py-2 text-white bg-blue-800 rounded">Add To Cart</button>
+                </form>
                 <div class="mt-6">
                     <a href="{{ route('clients') }}" class="border-2 border-blue-500 text-black px-4 py-2 rounded-md text-1xl font-medium hover:bg-blue-300 transition duration-300">CATALOGO</a>
                 </div>

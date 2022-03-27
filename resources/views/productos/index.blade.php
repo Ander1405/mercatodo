@@ -28,6 +28,7 @@
                             <th>{{ trans('Image') }}</th>
                             <th>{{ trans('Description') }}</th>
                             <th>{{ trans('Price') }}</th>
+                            <th>{{ trans('Stock') }}</th>
                             <th>{{ trans('Actions') }}</th>
                             <th>{{ trans('Status') }}</th>
 {{--                            <th>{{ trans('Categorie') }}</th>--}}
@@ -43,6 +44,7 @@
                                 </td>
                                 <td>{{$product->description}}</td>
                                 <td>{{$product->price}} {{ $currency }}</td>
+                                <td>{{$product->stock}}</td>
 {{--                                <td>{{$product->category_id}}</td>--}}
                                 <td>
                                     <div>

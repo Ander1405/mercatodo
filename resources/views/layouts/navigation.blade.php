@@ -16,6 +16,16 @@
                         {{ trans('Catalogue') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('shoppingCar')" :active="request()->routeIs('shoppingCar')">
+                        {{ trans('ShoppingCar') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('shoppingCarItem.index')" :active="request()->routeIs('shoppingCarItem.index')">
+                        {{ __('Historial') }}
+                    </x-nav-link>
+                </div>
                 @can('ver-usuario')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.index')">
