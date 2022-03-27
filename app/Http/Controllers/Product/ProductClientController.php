@@ -13,9 +13,10 @@ class ProductClientController extends Controller
 {
     public function index(Request $request): View
     {
+        $shoppingCart=auth()->user()->shoppingCarActive();
         $currency = config('app.currency');
         $products = Products::where('name', 'LIKE', '%' . $request->input('search') . '%')
             ->where('status','enabled')->paginate(6);
-        return view('clients.index', compact('products','currency'));
+        return view('clients.index', compact('products','currency', 'shoppingCart'));
     }
 }
