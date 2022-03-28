@@ -62,6 +62,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Amortization::class);
     }
+
+    public function shoppingCarNew(): ShoppingCar
+    {
+        return $this->shoppingCars()->create();
+    }
+
 }
 
 
