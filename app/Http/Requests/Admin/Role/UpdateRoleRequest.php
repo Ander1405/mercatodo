@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Admin\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class UpdateRoleRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,9 +15,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,',
-            'password' => 'same:confirm-password',
-//            'roles' => 'required'
+            'permission' => 'required'
         ];
     }
 }
