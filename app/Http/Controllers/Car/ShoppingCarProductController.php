@@ -16,19 +16,9 @@ use Illuminate\Http\Request;
 
 class ShoppingCarProductController extends Controller
 {
-
-    public function index(AmortizationBridgeContract $AmortizationBridgeContract)
+    public function index()
     {
-        $currency=config('app.currency');
-        $userNew = auth()->user()->id;
-        $amortizations = Amortization::where('user_id', $userNew)->paginate(10);
-        foreach ($amortizations as $amortization)
-        {
-            $AmortizationBridgeContract->queryPayment($amortization);
-        }
-
-        return view('clients.amortization.history', compact('amortizations', 'currency'));
-
+        //
     }
 
     public function store(Request $request, ShoppingCar $shoppingCar, Products $product): RedirectResponse
