@@ -16,6 +16,7 @@ class CreateProductsTable extends Migration
             $table->string('image');
             $table->unsignedBigInteger('price');
             $table->string('storage');
+            $table->bigInteger('stock');
             $table->string('ram');
             $table->string('processor');
             $table->string('graph');

@@ -70,17 +70,11 @@ class PlaceToPayBridge implements AmortizationBridgeContract
             ];
             $response = $this->placetopay->request($request);
             if ($response->isSuccessful()){
+                auth()->user()->shoppingCarNew();
                 $payment->process_url = $response->processUrl();
                 $payment->request_id = $response->requestId();
                 $payment->status = 'pending';
                 $payment->save();
-                foreach ($shoppingCar->shoppingCarItems as $product){
-                    $productQuantity = $product->quantity;
-                    $productStock = $product->product->stock ;
-                    $stockNow = $productStock - $productQuantity ;
-                    $product->product->stock = $stockNow;
-                    $product->product->save();
-                }
 
                 return $payment;
             }
@@ -103,6 +97,15 @@ class PlaceToPayBridge implements AmortizationBridgeContract
                     $payment->status = 'successful';
                     $payment->paid_at = new Carbon($response->status()->date());
                     $payment->receipt = Arr::get($response->payment(),'receipt');
+                    $idCart = $payment->shopping_car_id;
+                    $shoppingCar = ShoppingCar::find($idCart);
+                    foreach ($shoppingCar->shoppingCarItems as $product){
+                        $productQuantity = $product->quantity;
+                        $productStock = $product->product->stock ;
+                        $stockNow = $productStock - $productQuantity ;
+                        $product->product->stock = $stockNow;
+                        $product->product->save();
+                    }
                 }elseif ($response->status()->isRejected()){
                     $payment->status = 'rejected';
                 }
