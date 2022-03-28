@@ -11,6 +11,21 @@
 
                 <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
             </div>
+            <div>
+                <x-label for="surname" :value="trans('Surname')" />
+
+                <x-input id="surname" class="block mt- w-full" type="text" name="surname" :value="old('surname')" required autofocus />
+            </div>
+            <div>
+                <x-label for="document" :value="trans('Document')" />
+
+                <x-input id="document" class="block mt-1 w-full" type="text" name="document" :value="old('document')" required autofocus />
+            </div>
+            <div>
+                <x-label for="phone_number" :value="trans('Phone number')" />
+
+                <x-input id="phone_number" class="block mt-1 w-full" type="text" name="phone_number" :value="old('phone_number')" required autofocus />
+            </div>
 
             <!-- Email Address -->
             <div class="mt-4">

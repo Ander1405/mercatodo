@@ -1,3 +1,9 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-center text-xl text-gray-800 leading-tight">
+            {{ trans('Product information') }}
+        </h2>
+    </x-slot>
 <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
@@ -75,6 +81,7 @@
         </div>
     </div>
 </div>
+</x-app-layout>
 <style>.slider {
         width: 400px;
         height: 400px;

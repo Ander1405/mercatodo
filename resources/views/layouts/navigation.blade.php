@@ -26,6 +26,7 @@
                         {{ __('Historial') }}
                     </x-nav-link>
                 </div>
+
                 @can('ver-usuario')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.index')">
@@ -47,7 +48,13 @@
                     </x-nav-link>
                 </div>
                 @endcan
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('invoicesAdmin')" :active="request()->routeIs('invoicesAdmin')">
+                        {{ __('E-comerce') }}
+                    </x-nav-link>
+                </div>
             </div>
+
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
