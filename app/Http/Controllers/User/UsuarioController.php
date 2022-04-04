@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Http\Requests\User\StoreUserRequest;
-use App\Http\Requests\User\UpdateUserRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\User\StoreUserRequest;
+use App\Http\Requests\Admin\User\UpdateUserRequest;
 use App\Models\User;
-use Illuminate\View\View;
-use Spatie\Permission\Models\Role;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\support\Arr;
 use Illuminate\support\Facades\DB;
 use Illuminate\support\Facades\Hash;
-use Illuminate\support\Arr;
-
+use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
+use function config;
+use function redirect;
+use function view;
 
 
 class UsuarioController extends Controller
@@ -29,7 +29,7 @@ class UsuarioController extends Controller
 
     public function index(): View
     {
-        $usuarios = User::paginate(5);
+        $usuarios = User::paginate(config('app.paginate'));
         return view('usuarios.index', compact('usuarios'));
     }
 
@@ -64,6 +64,7 @@ class UsuarioController extends Controller
 
     public function update(UpdateUserRequest $request, $id): RedirectResponse
     {
+
         $input= $request->all();
         if(!empty($input['password'])){
             $input['password'] = Hash::make($input['password']);

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Observers\ModelObserver;
 
 class Products extends Model
 {
@@ -14,13 +15,16 @@ class Products extends Model
         'description',
         'image',
         'price',
+        'storage',
+        'ram',
+        'processor',
+        'graph',
+        'brand',
         'stock',
-        'size',
-        'color',
         'category_id'
     ];
     public function categories(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Cateorie::class,'id_categorie');
     }
 }

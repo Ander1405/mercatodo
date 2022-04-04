@@ -11,14 +11,17 @@ class UpdateProductRequest extends FormRequest
         return true;
     }
 
-
     public function rules(): array
     {
         return [
             'name'=>['required'],
-            'description'=>['required'],
+            'description',
             'price'=>['required'],
-            'image'=>['required'],
+            'storage',
+            'ram',
+            'processor',
+            'graph',
+            'brand',
         ];
     }
 }

@@ -36,8 +36,13 @@ class ProductoController extends Controller
         return view('productos.crear');
     }
 
+    public function show(Products $producto): view
+    {
+        $currency = config('app.currency');
+        return view('productos.show', compact('producto','currency'));
+    }
 
-    public function store(StoreProductRequest $request):RedirectResponse
+    public function store(StoreProductRequest $request): RedirectResponse
     {
         $producto = $request->all();
 
@@ -52,7 +57,7 @@ class ProductoController extends Controller
         return redirect()->route('productos.index');
     }
 
-    public function edit(Products $producto):View
+    public function edit(Products $producto): View
     {
         return view('productos.editar', compact('producto'));
     }

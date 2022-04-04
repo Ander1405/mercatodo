@@ -177,7 +177,13 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         //Spatie
-        Spatie\Permission\PermissionServiceProvider::class
+        Spatie\Permission\PermissionServiceProvider::class,
+        //PlaceToPay
+        App\Providers\AmortizationBridgeProvider::class,
+
+
+
+
 
     ],
 
@@ -234,6 +240,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+
     ],
-    'currency'=>env('CURRENCY', 'USD')
+    'currency'=>env('CURRENCY', 'COP'),
+    'paginate'=>env('PAGINATE_NUMBER',10)
 ];

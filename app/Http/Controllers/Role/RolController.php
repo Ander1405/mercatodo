@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Role;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Role\StoreRoleRequest;
-use App\Http\Requests\Role\UpdateRoleRequest;
+use App\Http\Requests\Admin\Role\StoreRoleRequest;
+use App\Http\Requests\Admin\Role\UpdateRoleRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -46,16 +46,12 @@ class RolController extends Controller
         return redirect()->route('roles.index');
     }
 
-    public function show($id)
+    public function edit(Role $role): View
     {
-        //
-    }
-
-    public function edit($id): View
-    {
-        $role = Role::find($id);
+//        dd($role);
+//        $role = Role::find($id);
         $permission = Permission::get();
-        $rolePermissions = DB::table('role_has_permissions')->where('role_has_permissions.role_id', $id)
+        $rolePermissions = DB::table('role_has_permissions')->where('role_has_permissions.role_id', $role->id)
             ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();
         return view('roles.editar', compact('role', 'permission', 'rolePermissions'));

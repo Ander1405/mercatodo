@@ -1,12 +1,17 @@
 <?php
 
+use App\Http\Controllers\AdminInvoiceController;
+use App\Http\Controllers\AgainPaymentController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Car\ShoppingCarController;
+use App\Http\Controllers\Car\ShoppingCarProductController;
 use App\Http\Controllers\Product\ProductClientController;
 use App\Http\Controllers\Product\ProductoController;
 use App\Http\Controllers\Product\StatusProductController;
+use App\Http\Controllers\Ptp\AmortizationController;
 use App\Http\Controllers\Role\RolController;
-use App\Http\Controllers\StatusUserController;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\User\StatusUserController;
+use App\Http\Controllers\User\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 //Agregamos controladores
@@ -14,17 +19,6 @@ use Illuminate\Support\Facades\Route;
 //Controlador del producto
 
 // Controladro cliente vista
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,6 +36,7 @@ Route::group(['middleware' => ['auth']], function (){
     Route::resource('roles',RolController::class);
     Route::resource('usuarios', UsuarioController::class);
     Route::resource('productos',ProductoController::class);
+    Route::get('/clients', [ProductClientController::class, 'index'])->name('clients');
 });
 
 Route::put('/statusChange/{user}', [StatusUserController::class,'update'])->name('statusChange');
@@ -53,9 +48,31 @@ Route::get('/disabled', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('disabled');
 
-// Ruta de vista personalizada del usuario
+//Carrito de compras
 
-Route::get('/clients', [ProductClientController::class, 'index'])->name('clients');
+Route::post('/shopping-cars/{shoppingCar}/create/{product}', [ShoppingCarProductController::class, 'store'])
+    ->name('shoppingCars.items.store');
+
+Route::post('/shopping-cars/update/{product}', [ShoppingCarProductController::class, 'update'])
+    ->name('shoppingCars.items.update');
+
+Route::get('shoppingCar', [ShoppingCarController::class, 'index'])->name('shoppingCar');
+
+Route::resource('shoppingCarItem', AmortizationController::class);
+
+//Pasarela de pagos
+Route::resource('api',AmortizationController::class);
+
+//Reintentar pago PTP
+
+Route::post('againAmortization/{amortization}',[AgainPaymentController::class,'store'])
+    ->name('againAmortization');
+
+//Pagos E-comerce
+
+Route::get('invoicesAdmin',[AdminInvoiceController::class,'index'])
+    ->name('invoicesAdmin');
+
 
 
 

@@ -11,10 +11,16 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name',50);
+            $table->char('name',50);
             $table->text('description')->nullable();
             $table->string('image');
-            $table->BigInteger('price');
+            $table->unsignedBigInteger('price');
+            $table->string('storage');
+            $table->bigInteger('stock');
+            $table->string('ram');
+            $table->string('processor');
+            $table->string('graph');
+            $table->string('brand');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->enum('status', ['enabled', 'disabled']);
             $table->foreign('category_id')
