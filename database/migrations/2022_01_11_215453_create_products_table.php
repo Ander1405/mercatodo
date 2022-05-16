@@ -11,9 +11,9 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->char('name',50);
+            $table->string('name',50)->unique();
             $table->text('description')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('price');
             $table->string('storage');
             $table->bigInteger('stock');
@@ -22,11 +22,8 @@ class CreateProductsTable extends Migration
             $table->string('graph');
             $table->string('brand');
             $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->enum('status', ['enabled', 'disabled']);
-            $table->foreign('category_id')
-                ->references('id')
-                ->on('categories')
-                ->onDelete('cascade');
             $table->timestamps();
         });
     }
