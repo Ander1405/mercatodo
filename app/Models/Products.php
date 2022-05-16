@@ -23,8 +23,8 @@ class Products extends Model
         'stock',
         'category_id'
     ];
-    public function categories(): BelongsTo
+    public function category(): BelongsTo
     {
-        return $this->belongsTo(Cateorie::class,'id_categorie');
+        return $this->belongsTo(Category::class);
     }
 }
