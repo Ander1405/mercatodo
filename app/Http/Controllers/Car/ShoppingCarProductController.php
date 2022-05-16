@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Car;
 
+use App\Actions\Car\StoreCarAction;
+use App\Actions\Car\UpdateCarAction;
 use App\Contracts\AmortizationBridgeContract;
+use App\Events\ProductMoreSaleByCategorie;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Car\StoreShoppingCarProductRequest;
 use App\Http\Requests\Car\UpdateShoppingCarProductRequest;
@@ -16,66 +19,15 @@ use Illuminate\Http\Request;
 
 class ShoppingCarProductController extends Controller
 {
-    public function index()
+
+    public function store(Request $request, ShoppingCar $shoppingCar, Products $product, StoreCarAction $storeCarAction)
     {
-        //
+        return $storeCarAction->storeCar($request->all(),$shoppingCar, $product);
     }
 
-    public function store(Request $request, ShoppingCar $shoppingCar, Products $product): RedirectResponse
+    public function update(Request $request, Products $product, UpdateCarAction $updateCarAction)
     {
-        $shoppingCartItem= auth()->user()->shoppingCarActive()->shoppingCarItems;
-        $itemSelected = 0;
-        $totalQuantity = 0 ;
-        foreach($shoppingCartItem as $item){
-            if($item->product_id == $product->id ){
-                $itemSelected = $item;
-                $totalQuantity = ($item->quantity) + ($request->input('quantity'));
-            }
-        }
-        if($totalQuantity <= $product->stock and $totalQuantity != 0){
-            $data = (['amount' => $totalQuantity]);
-            $itemSelected->update($data);
-            return redirect()->route('shoppingCar');
-        }elseif ($totalQuantity > $product->stock){
-            return redirect()->route('shoppingCar');
-        }
-        if($request->input('quantity') <= $product->stock){
-            $shoppingCar->shoppingCarItems()->create([
-                'product_id' => $product->getKey(),
-                'quantity' => $request->input('quantity')
-            ]);
-            return redirect()->route('shoppingCar');
-        } else {
-            return redirect()->route('shoppingCar');
-        }
-    }
-
-    public function show(ShoppingCarProduct $ShoppingCarProduct)
-    {
-        //
-    }
-
-    public function edit(ShoppingCarProduct $ShoppingCarProduct)
-    {
-        //
-    }
-
-    public function update(Request $request,Products $product)
-    {
-        $shoppingCartItem= auth()->user()->shoppingCarActive()->shoppingCarItems;
-        $totalQuantity = $request->input('quantity');
-        foreach ($shoppingCartItem as $item){
-            if ($item->product_id == $product->id){
-                $itemSelected = $item;
-                if ($totalQuantity > $product->stock){
-                    return redirect()->route('shoppingCar');
-                }else{
-                    $data=(['quantity'=>$totalQuantity]);
-                    $itemSelected->update($data);
-                    return redirect()->route('shoppingCar');
-                }
-            }
-        }
+        return $updateCarAction->updateCar($request->all(), $product);
     }
 
     public function destroy($id)

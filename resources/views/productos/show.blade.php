@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-center text-xl text-gray-800 leading-tight">
+        <h2 class="mt-6 font-semibold text-center text-4xl text-gray-800 leading-tight">
             {{ trans('Product information') }}
         </h2>
     </x-slot>
@@ -14,134 +14,98 @@
 <script src="{{ asset('js/app.js') }}" defer></script>
 
 <!-- component -->
-<div class="2xl:container 2xl:mx-auto md:py-12 lg:px-20 md:px-6 py-9 px-4">
+<div class=" 2xl:mx-auto md:py-12 lg:px-20 md:px-6 py-9 px-4 bg-gray-200">
     <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
-    <div id="viewerButton" class="hidden w-full flex justify-center">
-        <button onclick="openView()" class="bg-white text-indigo-600 shadow-md rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 py-5 px-10 font-semibold">Open Quick View</button>
-    </div>
-    <div id="viewerBox" class="lg:p-10 md:p-6 p-4 bg-white dark:bg-gray-900">
-        <div class="flex justify-end">
-            <button onclick="closeView()" aria-label="Close" class="focus:outline-none focus:ring-2 focus:ring-gray-800">
-                <svg class="dark:text-white" width="32" height="32" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17.8799 15.9996L23.6133 10.2796C23.8643 10.0285 24.0054 9.688 24.0054 9.33293C24.0054 8.97786 23.8643 8.63733 23.6133 8.38626C23.3622 8.13519 23.0217 7.99414 22.6666 7.99414C22.3115 7.99414 21.971 8.13519 21.7199 8.38626L15.9999 14.1196L10.2799 8.38626C10.0288 8.13519 9.68832 7.99414 9.33325 7.99414C8.97818 7.99414 8.63766 8.13519 8.38659 8.38626C8.13551 8.63733 7.99446 8.97786 7.99446 9.33293C7.99446 9.688 8.13551 10.0285 8.38659 10.2796L14.1199 15.9996L8.38659 21.7196C8.26161 21.8435 8.16242 21.991 8.09473 22.1535C8.02704 22.316 7.99219 22.4902 7.99219 22.6663C7.99219 22.8423 8.02704 23.0166 8.09473 23.179C8.16242 23.3415 8.26161 23.489 8.38659 23.6129C8.51054 23.7379 8.658 23.8371 8.82048 23.9048C8.98296 23.9725 9.15724 24.0073 9.33325 24.0073C9.50927 24.0073 9.68354 23.9725 9.84602 23.9048C10.0085 23.8371 10.156 23.7379 10.2799 23.6129L15.9999 17.8796L21.7199 23.6129C21.8439 23.7379 21.9913 23.8371 22.1538 23.9048C22.3163 23.9725 22.4906 24.0073 22.6666 24.0073C22.8426 24.0073 23.0169 23.9725 23.1794 23.9048C23.3418 23.8371 23.4893 23.7379 23.6133 23.6129C23.7382 23.489 23.8374 23.3415 23.9051 23.179C23.9728 23.0166 24.0077 22.8423 24.0077 22.6663C24.0077 22.4902 23.9728 22.316 23.9051 22.1535C23.8374 21.991 23.7382 21.8435 23.6133 21.7196L17.8799 15.9996Z" fill="#1F2937" />
-                </svg>
-            </button>
-        </div>
-        <div class="mt-3 md:mt-4 lg:mt-0 flex flex-col lg:flex-row items-strech justify-center lg:space-x-8">
-            <div class="lg:w-1/2 flex justify-between items-strech bg-gray-50  px-2 py-20 md:py-6 md:px-6 lg:py-24">
-                <div class="flex items-center">
-                    <a href="{{ route('clients') }}" onclick="goPrev()" aria-label="slide back" class="focus:outline-none focus:ring-2 focus:ring-gray-800 hover:bg-gray-100">
-                        <svg class="w-10 h-10 lg:w-16 lg:h-16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M40 16L24 32L40 48" stroke="#1F2937" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </a>
-                </div>
-                <div class="slider">
-                    <div class="slide-ana lg:relative">
-{{--                        <div class="flex" style="transform: translateX(-100%)">--}}
-{{--                            <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/ps5-playstaton-5-2-1600255876.jpg?crop=1.00xw:1.00xh;0,0&resize=640:*" alt="A black chair with wooden legs" class="w-full h-full" />--}}
-{{--                        </div>--}}
-{{--                        <div class="flex" style="transform: translateX(0%)">--}}
-{{--                            <img src="https://i.blogs.es/eaaf81/ps5-mando/1366_2000.jpeg" class="w-full h-full" />--}}
-{{--                        </div>--}}
-                        <div class="flex" style="transform: translateX(100%)">
-                            <img src="/image/{{ $producto->image }}" class="w-full h-full" />
+
+
+    <!-- Container for demo purpose -->
+    <div class="container my-24 px-6 mx-auto ">
+
+        <!-- Section: Design Block -->
+        <section class="mb-32 text-gray-800 text-center md:text-left ">
+            <div class="block rounded-lg shadow-lg bg-gray-200 border-2 border-gray-400">
+                <div class="flex flex-wrap items-center">
+                    <div class="grow-0 shrink-0 basis-auto block lg:flex w-full lg:w-6/12 xl:w-4/12">
+                        <img src="/image/{{ $producto->image }}" class="w-full rounded-t-lg lg:rounded-tr-none lg:rounded-bl-lg" />
+
+                    </div>
+                    <div class="grow-0 shrink-0 basis-auto w-full lg:w-6/12 xl:w-8/12">
+                        <div class="px-6 py-12 md:px-12">
+                            <h2 class="text-3xl font-bold mb-6 pb-2">{{ $producto->name }}</h2>
+                            <p class="text-gray-500 mb-6 pb-2 text-xl">
+                                {{ $producto->description }}
+                            </p>
+                            <div class="flex flex-wrap mb-6">
+                                <div class="w-full lg:w-6/12 xl:w-4/12 mb-4">
+                                    <p class="flex items-center justify-center md:justify-start">
+                                        <svg class="w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <path fill="currentColor"
+                                                  d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                                            </path>
+                                        </svg>{{ $producto->storage }} De almacenamiento
+                                    </p>
+                                </div>
+                                <div class="w-full lg:w-6/12 xl:w-4/12 mb-4">
+                                    <p class="flex items-center justify-center md:justify-start">
+                                        <svg class="w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <path fill="currentColor"
+                                                  d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                                            </path>
+                                        </svg>{{ $producto->ram }} GB de ram
+                                    </p>
+                                </div>
+                                <div class="w-full lg:w-6/12 xl:w-4/12 mb-4">
+                                    <p class="flex items-center justify-center md:justify-start">
+                                        <svg class="w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <path fill="currentColor"
+                                                  d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                                            </path>
+                                        </svg>Procesador {{ $producto->processor }}
+                                    </p>
+                                </div>
+                                <div class="w-full lg:w-6/12 xl:w-4/12 mb-4">
+                                    <p class="flex items-center justify-center md:justify-start">
+                                        <svg class="w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <path fill="currentColor"
+                                                  d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                                            </path>
+                                        </svg>Tarjeta grafica {{ $producto->graph }}
+                                    </p>
+                                </div>
+                                <div class="w-full lg:w-6/12 xl:w-4/12 mb-4">
+                                    <p class="flex items-center justify-center md:justify-start">
+                                        <svg class="w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <path fill="currentColor"
+                                                  d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                                            </path>
+                                        </svg>Marca {{ $producto->brand }}
+                                    </p>
+                                </div>
+                                <div class="w-full lg:w-6/12 xl:w-4/12 mb-4">
+                                    <p class="flex items-center justify-center md:justify-start">
+                                        <svg class="w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <path fill="currentColor"
+                                                  d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                                            </path>
+                                        </svg>Precio {{ $producto->price }} {{ $currency }}
+                                    </p>
+                                </div>
+                            </div>
+                            <a href="{{ route('clients') }}" type="button"
+                                    class="inline-block px-7 py-3 bg-gray-800 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-gray-900 hover:shadow-lg focus:bg-gray-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-900 active:shadow-lg transition duration-150 ease-in-out">
+                                Regresar
+                            </a>
+                            <button type="button"
+                                    class="inline-block px-7 py-3 bg-gray-800 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-gray-900 hover:shadow-lg focus:bg-gray-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-900 active:shadow-lg transition duration-150 ease-in-out">
+                                Buy now
+                            </button>
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center">
-                    <button onclick="goNext()" aria-label="slide forward" class="focus:outline-none focus:ring-2 focus:ring-gray-800 hover:bg-gray-100">
-                        <svg class="w-10 h-10 lg:w-16 lg:h-16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 16L40 32L24 48" stroke="#1F2937" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </button>
-                </div>
             </div>
-            <div class="lg:w-1/2 flex flex-col justify-center mt-7 md:mt-8 lg:mt-0 pb-8 lg:pb-0">
-                <h1 class="text-3xl lg:text-4xl font-semibold text-gray-800 dark:text-white">{{ $producto->name }}</h1>
-                <p class="text-base leading-normal text-gray-600 dark:text-white mt-6">{{ $producto->description }}</p>
-                <br>
-                <br>
-                <ol>
-                    <li>{{ $producto->storage }}</li>
-                    <li>{{ $producto->ram }}</li>
-                    <li>{{ $producto->processor }}</li>
-                    <li>{{ $producto->graph }}</li>
-                    <li>{{ $producto->brand }}</li>
-                </ol>
-                <p class="text-base leading-normal text-gray-600 dark:text-white mt-6">{{ $producto->price }} {{ $currency }}</p>
-                <p class="text-3xl font-medium text-gray-600 dark:text-white mt-8 md:mt-10"></p>
-                <form class="mt-5" >
-                    <button class="px-4 py-2 text-white bg-blue-800 rounded">Add To Cart</button>
-                </form>
-                <div class="mt-6">
-                    <a href="{{ route('clients') }}" class="border-2 border-blue-500 text-black px-4 py-2 rounded-md text-1xl font-medium hover:bg-blue-300 transition duration-300">CATALOGO</a>
-                </div>
-            </div>
-        </div>
+        </section>
+        <!-- Section: Design Block -->
     </div>
+    <!-- Container for demo purpose -->
 </div>
 </x-app-layout>
-<style>.slider {
-        width: 400px;
-        height: 400px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .slide-ana {
-        height: 360px;
-    }
-
-    .slide-ana > div {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        transition: all 0.7s;
-    }
-
-    @media (min-width: 200px) and (max-width: 639px) {
-        .slider {
-            height: 300px;
-            width: 170px;
-        }
-    }
-</style>
-<script>// more free and premium Tailwind CSS components at https://tailwinduikit.com/
-    let slides = document.querySelectorAll(".slide-ana>div");
-    let slideSayisi = slides.length;
-    let prev = document.getElementById("prev");
-    let next = document.getElementById("next");
-    for (let index = 0; index < slides.length; index++) {
-        const element = slides[index];
-        element.style.transform = "translateX(" + 100 * index + "%)";
-    }
-    let loop = 0 + 1000 * slideSayisi;
-
-    function goNext() {
-        loop++;
-        for (let index = 0; index < slides.length; index++) {
-            const element = slides[index];
-            element.style.transform =
-                "translateX(" + 100 * (index - (loop % slideSayisi)) + "%)";
-        }
-    }
-
-    function goPrev() {
-        loop--;
-        for (let index = 0; index < slides.length; index++) {
-            const element = slides[index];
-            element.style.transform =
-                "translateX(" + 100 * (index - (loop % slideSayisi)) + "%)";
-        }
-    }
-
-    function openView() {
-        document.getElementById("viewerButton").classList.add("hidden");
-        document.getElementById("viewerBox").classList.remove("hidden");
-    }
-    function closeView() {
-        document.getElementById("viewerBox").classList.add("hidden");
-        document.getElementById("viewerButton").classList.remove("hidden");
-    }
-</script>

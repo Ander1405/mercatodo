@@ -16,11 +16,6 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'surname',
@@ -30,35 +25,25 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function shoppingCars(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function shoppingCars(): HasMany
     {
         return $this->hasMany(ShoppingCar::class);
     }
 
-    public function shoppingCarActive():ShoppingCar
+    public function shoppingCarActive(): ShoppingCar
     {
         return $this->shoppingCars()->latest()->first() ?? $this->shoppingCars()->create();
     }
 
-    public function amortization():HasMany
+    public function amortization(): HasMany
     {
         return $this->hasMany(Amortization::class);
     }
@@ -66,6 +51,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function shoppingCarNew(): ShoppingCar
     {
         return $this->shoppingCars()->create();
+    }
+
+    public function export(): HasMany
+    {
+        return $this->hasMany(Export::class);
     }
 
 }

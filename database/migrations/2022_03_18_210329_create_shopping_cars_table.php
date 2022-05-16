@@ -13,7 +13,6 @@ class CreateShoppingCarsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
-
             $table->foreign('user_id')->on('users')->references('id');
         });
     }

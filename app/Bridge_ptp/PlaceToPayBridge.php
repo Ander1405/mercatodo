@@ -2,10 +2,15 @@
 
 namespace App\Bridge_ptp;
 
+use App\Actions\Car\TotalPriceCarAction;
+use App\Actions\PlaceToPayBridge\PlaceToPayBridgeAction;
 use App\Contracts\AmortizationBridgeContract;
+use App\Events\ProductMoreSaleByCategorie;
 use App\Exceptions\AmortizationException;
 use App\Models\Amortization;
 use App\Models\ShoppingCar;
+use App\Models\User;
+use App\Notifications\AmortizationNotification;
 use Carbon\Carbon;
 use Dnetix\Redirection\PlacetoPay;
 use Illuminate\Http\Request;
@@ -28,76 +33,57 @@ class PlaceToPayBridge implements AmortizationBridgeContract
         return $this;
     }
 
-    public function createSession(ShoppingCar $shoppingCar, Request $request): Amortization
+    public function createSession (ShoppingCar $shoppingCar, Request $request, PlaceToPayBridgeAction $placeToPayBridgeAction): Amortization
     {
-        $totalPrice = 0;
-        foreach ($shoppingCar->shoppingCarItems as $product){
-            $priceProduct = $product->product->price;
-            $productQuantity = $product->quantity;
-            $totalPrice += $priceProduct * $productQuantity;
-        }
+        $totalPrice = $placeToPayBridgeAction->priceCheckOut($shoppingCar);
 
         try {
-            $payment = new Amortization();
-            $payment->shopping_car_id = $shoppingCar->id;
-            $payment->reference = Str::random(10);
-            $payment->status = 'pending';
-            $payment->user_id = auth()->user()->id;
-            $payment->amount = $totalPrice;
-            $payment->save();
+            $amortization = $placeToPayBridgeAction->started($shoppingCar, $totalPrice);
             $request = [
                 'payment' => [
-                    'reference' => $payment->reference,
-                    'description' => $payment->description,
+                    'reference' => $amortization->reference,
+                    'description' => $amortization->description,
                     'amount' => [
                         'currency' => 'COP',
                         'total' => $totalPrice,
                     ],
-
                 ],
                 'payer' => [
-                    'document' => $payment->user->document,
+                    'document' => $amortization->user->document,
                     'documentType' => 'CC',
-                    'name' => $payment->user->name,
-                    'surname' => $payment->user->surname,
-                    'email' => $payment->user->email,
-                    'mobile' => $payment->user->phone_number,
+                    'name' => $amortization->user->name,
+                    'surname' => $amortization->user->surname,
+                    'email' => $amortization->user->email,
+                    'mobile' => $amortization->user->phone_number,
                 ],
                 'expiration' => date('c',strtotime('+30 minutes')),
-                'returnUrl' => route('clients', $payment),
+                'returnUrl' => route('clients', $amortization),
                 'ipAddress' => $request->ip(),
                 'userAgent' => $request->userAgent(),
             ];
             $response = $this->placetopay->request($request);
-            if ($response->isSuccessful()){
-                auth()->user()->shoppingCarNew();
-                $payment->process_url = $response->processUrl();
-                $payment->request_id = $response->requestId();
-                $payment->status = 'pending';
-                $payment->save();
 
-                return $payment;
-            }
-            $payment->status = 'rejected';
-            $payment->save();
-            return $payment;
+            return $placeToPayBridgeAction->updated($amortization, $response);
+
         }catch (Throwable $exception){
             report($exception);
             throw new AmortizationException($exception->getMessage());
         }
     }
 
-    public function queryPayment(Amortization $payment): Amortization
+    public function queryPayment(Amortization $amortization): Amortization
     {
-        $response = $this->placetopay->query($payment->request_id);
+        $response = $this->placetopay->query($amortization->request_id);
 
         try {
             if ($response->isSuccessful()){
                 if ($response->status()->isApproved()){
-                    $payment->status = 'successful';
-                    $payment->paid_at = new Carbon($response->status()->date());
-                    $payment->receipt = Arr::get($response->payment(),'receipt');
-                    $idCart = $payment->shopping_car_id;
+                    $amortization->status = 'successful';
+                    $userNotify = User::find($amortization->user_id);
+                    $userNotify->notify(new AmortizationNotification($amortization));
+                    $amortization->paid_at = new Carbon($response->status()->date());
+                    $amortization->receipt = Arr::get($response->payment(),'receipt');
+                    $idCart = $amortization->shopping_car_id;
                     $shoppingCar = ShoppingCar::find($idCart);
                     foreach ($shoppingCar->shoppingCarItems as $product){
                         $productQuantity = $product->quantity;
@@ -105,11 +91,18 @@ class PlaceToPayBridge implements AmortizationBridgeContract
                         $stockNow = $productStock - $productQuantity ;
                         $product->product->stock = $stockNow;
                         $product->product->save();
+                        $count = 1;
+                        while ($count <= $productQuantity) {
+                            ProductMoreSaleByCategorie::dispatch($product->product, $product->product->name, $product->product->category->name);
+                            $count++;
+                        }
+
                     }
                 }elseif ($response->status()->isRejected()){
-                    $payment->status = 'rejected';
+                    $amortization->status = 'rejected';
                 }
-                $payment->save();
+
+                $amortization->save();
             }
         }
         catch (Throwable $exception)
@@ -117,7 +110,7 @@ class PlaceToPayBridge implements AmortizationBridgeContract
             report($exception);
             throw new AmortizationException($exception->getMessage());
         }
-        return $payment;
+        return $amortization;
     }
 
 }

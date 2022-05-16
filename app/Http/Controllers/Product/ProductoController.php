@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Actions\Cache\CategoryCacheAction;
+use App\Actions\Delete_for_all\DeleteAction;
+use App\Actions\Products\ImageAction;
+use App\Actions\Products\StoreProductAction;
+use App\Actions\Products\UpdateProductAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Products\StoreProductRequest;
 use App\Http\Requests\Admin\Products\UpdateProductRequest;
+use App\Models\Category;
 use App\Models\Products;
+use App\Models\ShoppingCar;
+use Dflydev\DotAccessData\Data;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -15,66 +23,55 @@ use function view;
 
 class ProductoController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
-        $this->middleware('permission:ver-producto|crear-producto|editar-producto|borrar-producto',['only'=>['index']]);
-        $this->middleware('permission:crear-producto' ,['only'=>['create','store']]);
-        $this->middleware('permission:editar-producto' ,['only'=>['edit','update']]);
-        $this->middleware('permission:borrar-producto' ,['only'=>['destroy']]);
+        $this->middleware('permission:ver-producto|crear-producto|editar-producto|borrar-producto', ['only'=>['index']]);
+        $this->middleware('permission:crear-producto', ['only'=>['create','store']]);
+        $this->middleware('permission:editar-producto', ['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-producto', ['only'=>['destroy']]);
     }
 
-    public function index(Request $request): View
+    public function index(Request $request, CategoryCacheAction $cacheAction): View
     {
+        $categories = $cacheAction->cacheIndex();
         $currency = config('app.currency');
-        $products = Products::where('name', 'LIKE', '%' . $request->input('search') . '%')->paginate(6);
-        return view('productos.index', compact('products','currency'));
+        $products = Products::where('name', 'LIKE', '%' . $request->input('search') . '%')->paginate(10);
+        return view('productos.index', compact('products', 'currency','categories'));
     }
 
 
     public function create(): View
     {
-        return view('productos.crear');
+        $categories = Category::get();
+        return view('productos.crear', compact('categories'));
     }
 
     public function show(Products $producto): view
     {
+        $shoppingCart=auth()->user()->shoppingCarActive();
         $currency = config('app.currency');
-        return view('productos.show', compact('producto','currency'));
+        return view('productos.show', compact('producto', 'currency','shoppingCart'));
     }
 
-    public function store(StoreProductRequest $request): RedirectResponse
+    public function store( StoreProductRequest $request, StoreProductAction $storeProductAction, ImageAction $imageAction): RedirectResponse
     {
-        $producto = $request->all();
-
-        if($imagen = $request->file('image')) {
-            $rutaGuardarImg = 'image/';
-            $imagenProducto = date('YmdHis'). "." . $imagen->getClientOriginalExtension();
-            $imagen->move($rutaGuardarImg, $imagenProducto);
-            $producto['image'] = "$imagenProducto";
-        }
-
-        Products::create($producto);
-        return redirect()->route('productos.index');
+//        $categorie = $request['categorie'];
+        $product = $storeProductAction->execute($request->all(), new Products(), $imageAction->image($request->file('image')),$request['category_id']);
+        return redirect()->route('productos.index', compact('product'));
     }
 
     public function edit(Products $producto): View
     {
-        return view('productos.editar', compact('producto'));
+        $categories = Category::get();
+        return view('productos.editar', compact('producto', 'categories'));
     }
 
 
-    public function update(UpdateProductRequest $request, Products $producto): RedirectResponse
+    public function update(Request $request, Products $producto, UpdateProductAction $updateProductAction, ImageAction $imageAction): RedirectResponse
     {
-        $prod = $request->all();
-        if($imagen = $request->file('image')){
-            $rutaGuardarImg = 'image/';
-            $imagenProducto = date('YmdHis') . "." . $imagen->getClientOriginalExtension();
-            $imagen->move($rutaGuardarImg, $imagenProducto);
-            $prod['image'] = "$imagenProducto";
-        }else{
-            unset($prod['image']);
-        }
-        $producto->update($prod);
+//        $categorie = $request['categorie'];
+        $updateProductAction->execute($request->all(), $producto, $imageAction->image($request->file('image')),$request['category_id']);
+
         return redirect()->route('productos.index');
     }
 

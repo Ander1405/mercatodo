@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Role;
 
+use App\Actions\Cache\RolCacheAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Role\StoreRoleRequest;
 use App\Http\Requests\Admin\Role\UpdateRoleRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Permission;
@@ -18,21 +20,21 @@ use function view;
 
 class RolController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
-        $this->middleware('permission:ver-rol|crear-rol|editar-rol|borrar-rol',['only'=>['index']]);
-        $this->middleware('permission:crear-rol' ,['only'=>['create','store']]);
-        $this->middleware('permission:editar-rol' ,['only'=>['edit','update']]);
-        $this->middleware('permission:borrar-rol' ,['only'=>['destroy']]);
+        $this->middleware('permission:ver-rol|crear-rol|editar-rol|borrar-rol', ['only'=>['index']]);
+        $this->middleware('permission:crear-rol', ['only'=>['create','store']]);
+        $this->middleware('permission:editar-rol', ['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-rol', ['only'=>['destroy']]);
     }
 
-    public function index(): View
+    public function index(RolCacheAction $cacheAction): View
     {
-        $roles = Role::paginate(5);
-        return view('roles.index',compact('roles'));
+        $roles = $cacheAction->cacheIndex();
+        return view('roles.index', compact('roles'));
     }
 
-    public function create():View
+    public function create(): View
     {
         $permission = Permission::get();
         return view('roles.crear', compact('permission'));
@@ -40,6 +42,7 @@ class RolController extends Controller
 
     public function store(StoreRoleRequest $request): RedirectResponse
     {
+        Cache::forget('roles');
         $role = Role::create(['name'=>$request->input('name')]);
         $role->syncPermissions($request->input('permission'));
 
@@ -59,7 +62,6 @@ class RolController extends Controller
 
     public function update(UpdateRoleRequest $request, $id): RedirectResponse
     {
-
         $role = Role::find($id);
         $role->name = $request->input('name');
         $role->save();
@@ -70,7 +72,8 @@ class RolController extends Controller
 
     public function destroy($id): RedirectResponse
     {
-        DB::table('roles')->where('id',$id)->delete();
+        Cache::forget('roles');
+        DB::table('roles')->where('id', $id)->delete();
         return redirect()->route('roles.index');
     }
 }

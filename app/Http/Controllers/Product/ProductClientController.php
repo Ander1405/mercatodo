@@ -16,7 +16,7 @@ class ProductClientController extends Controller
         $shoppingCart=auth()->user()->shoppingCarActive();
         $currency = config('app.currency');
         $products = Products::where('name', 'LIKE', '%' . $request->input('search') . '%')
-            ->where('status','enabled')->paginate(6);
-        return view('clients.index', compact('products','currency', 'shoppingCart'));
+            ->where('status', 'enabled')->paginate(10);
+        return view('clients.index', compact('products', 'currency', 'shoppingCart'));
     }
 }

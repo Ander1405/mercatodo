@@ -1,61 +1,66 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-gray-200 border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" /><h1>Mercatodo</h1>
-                    </a>
+                    <img src="https://cdn2.iconfinder.com/data/icons/cashless-payment-society/291/cashless-payment-005-256.png" alt="" class="w-14 h-14 mr-12 rounded-lg">
+{{--                    <a href="{{ route('dashboard') }}">--}}
+                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" /><h1 class="font-semibold ">Mercatodo</h1>
+{{--                    </a>--}}
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('clients')" :active="request()->routeIs('clients')">
-                        {{ trans('Catalogue') }}
+                        <img src="https://cdn2.iconfinder.com/data/icons/shopping-244/512/shopping-buy-shop-21-256.png" alt="" class="w-14 h-14 mr-2 rounded-lg">
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('shoppingCar')" :active="request()->routeIs('shoppingCar')">
-                        {{ trans('ShoppingCar') }}
+                        <img src="https://cdn4.iconfinder.com/data/icons/unigrid-finance/57/014_shopping_cart_shop_basket_buy_check_out_checkout_store_ecommerce_5-256.png" alt="" class="w-14 h-12 mr-2 rounded-lg">
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('shoppingCarItem.index')" :active="request()->routeIs('shoppingCarItem.index')">
-                        {{ __('Historial') }}
+                        <img src="https://cdn0.iconfinder.com/data/icons/zake-shopping-ecommerce-vol-1/25/history_recent_order-256.png" alt="" class="w-14 h-14 mr-2 rounded-lg">
                     </x-nav-link>
                 </div>
-
                 @can('ver-usuario')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.index')">
-                        {{ trans('Users') }}
+                        <img src="https://cdn4.iconfinder.com/data/icons/aami-web-internet/64/aami14-36-256.png" alt="" class="w-14 h-14 mr-2 rounded-lg">
                     </x-nav-link>
                 </div>
-                @endcan
-                @can('ver-productos')
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('productos.index')" :active="request()->routeIs('productos.index')">
-                            {{ trans('Products') }}
-                        </x-nav-link>
-                    </div>
                 @endcan
                 @can('ver-rol')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
-                        {{ __('Roles') }}
+                        <img src="https://cdn2.iconfinder.com/data/icons/biometric-11/64/Authentication-account-approves-computer-permission-256.png" alt="" class="w-14 h-14 mr-2 rounded-lg">
+                    </x-nav-link>
+                </div>
+                @endcan
+                @can('ver-producto')
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('productos.index')" :active="request()->routeIs('productos.index')">
+                        <img src="https://cdn4.iconfinder.com/data/icons/consumer-behaviour-2/64/services-products-manage-carry-supplier-256.png" alt="" class="w-14 h-14 mr-2 rounded-lg">
+                    </x-nav-link>
+                </div>
+                @endcan
+                @can('ver-historial')
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('invoicesAdmin')" :active="request()->routeIs('invoicesAdmin')">
+                        <img src="https://cdn2.iconfinder.com/data/icons/corporate-management-6/48/66-256.png" alt="" class="w-14 h-14 mr-2 rounded-lg">
                     </x-nav-link>
                 </div>
                 @endcan
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('invoicesAdmin')" :active="request()->routeIs('invoicesAdmin')">
-                        {{ __('E-comerce') }}
+                    <x-nav-link :href="route('export.index')" :active="request()->routeIs('export.index')">
+                        <img src="https://cdn3.iconfinder.com/data/icons/user-interface-2-6/85/folder_download-512.png" alt="" class="w-14 h-14 mr-2 rounded-lg">
                     </x-nav-link>
                 </div>
             </div>
-
-
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
@@ -79,7 +84,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Cerrar sesion') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>

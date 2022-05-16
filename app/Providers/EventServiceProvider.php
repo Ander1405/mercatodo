@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\RegisterAdminEvent;
+use App\Events\ProductMoreSaleByCategorie;
+use App\Events\StoreExport;
+use App\Listeners\AddExport;
+use App\Listeners\RegisterAdminActionLog;
+use App\Listeners\AddSaleByCategorie;
 use App\Models\Products;
 use App\Models\User;
 use App\Observers\ModelObserver;
@@ -21,14 +27,18 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        ProductMoreSaleByCategorie::class => [
+            AddSaleByCategorie::class,
+        ],
+        RegisterAdminEvent::class => [
+            RegisterAdminActionLog::class,
+        ],
+        StoreExport::class => [
+            AddExport::class,
+        ]
     ];
 
-    /**
-     * Register any events for your application.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
         User::observe(ModelObserver::class);
         Products::observe(ModelObserver::class);

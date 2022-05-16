@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Actions\Users\StoreUserAction;
+use App\Actions\Users\UpdateUserAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\StoreUserRequest;
 use App\Http\Requests\Admin\User\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\support\Arr;
 use Illuminate\support\Facades\DB;
 use Illuminate\support\Facades\Hash;
@@ -16,15 +19,14 @@ use function config;
 use function redirect;
 use function view;
 
-
 class UsuarioController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
-        $this->middleware('permission:ver-usuario|crear-usuario|editar-usuario|borrar-usuario',['only'=>['index']]);
-        $this->middleware('permission:crear-usuario' ,['only'=>['create','store']]);
-        $this->middleware('permission:editar-usuario' ,['only'=>['edit','update']]);
-        $this->middleware('permission:borrar-usuario' ,['only'=>['destroy']]);
+        $this->middleware('permission:ver-usuario|crear-usuario|editar-usuario|borrar-usuario', ['only'=>['index']]);
+        $this->middleware('permission:crear-usuario', ['only'=>['create','store']]);
+        $this->middleware('permission:editar-usuario', ['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-usuario', ['only'=>['destroy']]);
     }
 
     public function index(): View
@@ -41,49 +43,34 @@ class UsuarioController extends Controller
     }
 
 
-    public function store(StoreUserRequest $request): RedirectResponse
+    public function store(Request $request, StoreUserAction $storeUserAction): RedirectResponse
     {
-
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-
-        $user = User::create($input);
-        $user->assignRole($request->input('roles'));
+        $storeUserAction->storeUser($request->all(),new User());
 
         return redirect()->route('usuarios.index');
     }
 
-    public function edit($id): View
+    public function edit(User $usuario): View
     {
-        $user = User::find($id);
         $roles = Role::pluck('name', 'name')->all();
-        $userRole = $user->pluck('name', 'name')->all();
-        return view('usuarios.editar', compact('user', 'roles', 'userRole'));
+        $userRole = $usuario->pluck('name', 'name')->all();
+        return view('usuarios.editar', compact('usuario', 'roles', 'userRole'));
     }
 
 
-    public function update(UpdateUserRequest $request, $id): RedirectResponse
+    public function update(Request $request,  User $usuario, UpdateUserAction $updateUserAction): RedirectResponse
     {
+        $updateUserAction->updateUser($request->all(),$usuario);
 
-        $input= $request->all();
-        if(!empty($input['password'])){
-            $input['password'] = Hash::make($input['password']);
-        }else{
-            $input = Arr::except($input, array('password'));
-        }
-
-        $user = User::find($id);
-        $user->update($input);
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
-
-        $user->assignRole($request->input('roles'));
+        $usuario->assignRole($request->input('roles'));
         return redirect()->route('usuarios.index');
     }
 
 
     public function destroy($id): RedirectResponse
     {
-        User::find($id)->delete();
+        $userDelete = User::find($id);
+        $userDelete->delete();
         return redirect()->route('usuarios.index');
     }
 }
