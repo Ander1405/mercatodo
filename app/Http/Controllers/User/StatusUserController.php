@@ -19,9 +19,9 @@ class StatusUserController extends Controller
     {
         $user = User::find($id);
 
-        if ($user->status == 'enabled'){
+        if ($user->status == 'enabled') {
             $user->status = 'disabled';
-        }else{
+        } else {
             $user->status = 'enabled';
         }
         $user->save();

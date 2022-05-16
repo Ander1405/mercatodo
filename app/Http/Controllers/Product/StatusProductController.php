@@ -13,9 +13,9 @@ class StatusProductController extends Controller
     {
         $product = Products::find($id);
 
-        if ($product->status == 'enabled'){
+        if ($product->status == 'enabled') {
             $product->status = 'disabled';
-        }else{
+        } else {
             $product->status = 'enabled';
         }
         $product->save();
