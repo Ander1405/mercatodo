@@ -30,6 +30,9 @@ class SeederTablaPermisos extends Seeder
             'editar-producto',
             'borrar-producto',
 
+            //Historial de transacciones
+            'ver-historial',
+
         ];
         foreach ($permisos as $permiso){
             Permission::create(['name'=>$permiso]);
