@@ -1,7 +1,13 @@
 require('./bootstrap');
 
-import Alpine from 'alpinejs';
+import { createApp } from 'vue';
 
-window.Alpine = Alpine;
+import chart from "../vue/chart.vue";
+import ChartAmortization from "../vue/ChartAmortization"
 
-Alpine.start();
+createApp(chart).mount('#chart');
+createApp(ChartAmortization).mount('#ChartAmortization');
+
+
+
+
