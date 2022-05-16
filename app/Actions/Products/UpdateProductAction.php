@@ -20,7 +20,7 @@ class UpdateProductAction
         $products->graph = $data['graph'];
         $products->brand = $data['brand'];
         $products->stock = $data['stock'];
-        $products->categorie = $data['categorie'];
+        $products->category_id = $data['category_id'];
         $products->save();
 
         return $products;

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Products;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -21,10 +22,21 @@ class StoreProductTest extends TestCase
 
     public function test_it_stores_a_new_product(): void
     {
+        Category::create([
+            'name' => 'ordenadores',
+            'description' => 'esto es un test'
+        ]);
         $data= [
             'name' => 'Test product',
             'price' => 100,
             'description' => 'I am a test product',
+            'storage' => '500 GB',
+            'stock' => '150',
+            'ram' => '16',
+            'processor' => 'AMD Ryzen 5',
+            'graph' => '1660 TI',
+            'brand' => 'Asus',
+            'category_id' => '1',
             'image' => UploadedFile::fake()->image('product.jpg', 500, 250)->size(50),
         ];
         $user = User::factory()->create()->givePermissionTo('crear-producto');

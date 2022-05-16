@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Admin\Products;
 
+use App\Models\Category;
 use App\Models\Products;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -21,9 +22,22 @@ class UpdateProductTest extends TestCase
 
     public function test_it_can_update_a_product(): void
     {
+        Category::create([
+            'name'=>'consolas',
+            'description'=>'lo mejor para entretenimiento'
+        ]);
+
         $request = [
             'name' => 'Test product',
             'price' => 10,
+            'description' => 'Esto es una prueba',
+            'storage' => '500 GB',
+            'stock' => '150',
+            'ram' => '16',
+            'processor' => 'AMD Ryzen 5',
+            'graph' => '1660 TI',
+            'brand' => 'Asus',
+            'category_id' => '1',
             'image' => UploadedFile::fake()->image('product.jpg', 500, 250)->size(50),
         ];
 
